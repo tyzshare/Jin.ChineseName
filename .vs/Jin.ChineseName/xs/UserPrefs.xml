@@ -1,0 +1,14 @@
+﻿<Properties StartupConfiguration="{3B906F72-4588-47A4-98DE-3B2CDA83EB41}|Unit Tests">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Jin.ChineseName Status">
+    <Files>
+      <File FileName="Jin.ChineseName Status" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.Jin.ChineseName.Test PreferredExecutionTarget="MonoDevelop.Default" />
+  <MultiItemStartupConfigurations />
+</Properties>
