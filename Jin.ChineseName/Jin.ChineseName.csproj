@@ -5,9 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="ChnCharInfo">
-      <HintPath>C:\Program Files (x86)\Microsoft Visual Studio International Pack\Simplified Chinese Pin-Yin Conversion Library\ChnCharInfo.dll</HintPath>
-    </Reference>
+    <PackageReference Include="NetCorePal.Toolkit.Pinyins" Version="1.1.0" />
   </ItemGroup>
 
 </Project>

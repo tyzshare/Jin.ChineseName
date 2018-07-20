@@ -1,4 +1,5 @@
 ﻿using Microsoft.International.Converters.PinYinConverter;
+using NetCorePal.Toolkit.Pinyins;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -54,14 +55,14 @@ namespace Jin.ChineseName
                 for (var i = num; i < name.Count(); i++)
                 {
                     //常规拼音转换
-                    namePinYin.Append(GetPinyin(arr[i].ToString()));
+                    namePinYin.Append(PinyinConvert.ToPinyins(arr[i].ToString(),true)[0]);
                 }
             }
             //单个字节
-            if (arr.Count() <= 1)
+            if (arr.Count() <= 1 && name.Length > 0)
             {
                 //常规拼音转换
-                namePinYin.Append(GetPinyin(name));
+                namePinYin.Append(PinyinConvert.ToPinyins(name, true)[0]);
             }
             //返回
             return namePinYin.ToString();
@@ -154,30 +155,6 @@ namespace Jin.ChineseName
             str = str.Replace("ǜ", "v");
 
             return str;
-        }
-
-        /// <summary>   
-        /// 汉字转化为拼音  
-        /// </summary>   
-        /// <param name="str">汉字</param>   
-        /// <returns>全拼</returns>   
-        public string GetPinyin(string str)
-        {
-            string r = string.Empty;
-            foreach (char obj in str)
-            {
-                try
-                {
-                    ChineseChar chineseChar = new ChineseChar(obj);
-                    string t = chineseChar.Pinyins[0].ToString();
-                    r += t.Substring(0, t.Length - 1);
-                }
-                catch
-                {
-                    r += obj.ToString();
-                }
-            }
-            return r.ToLower();
         }
     }
 
