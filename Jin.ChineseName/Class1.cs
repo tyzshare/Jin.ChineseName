@@ -22,49 +22,42 @@ namespace Jin.ChineseName
             {
                 throw new ArgumentNullException(nameof(name));
             }
+            if (name.Length == 1)
+            {
+                return PinyinConvert.ToPinyins(name, true)[0];
+            }
             //初始化字典集
             var dictionary = ReadPinYinConfiguration();
             var namePinYin = new StringBuilder();
             //姓名拆成单字
             var arr = name.ToCharArray();
-            //2个或以上字节
-            if (arr.Count() >= 2)
+            var num = 0;
+            //复姓命中
+            var xing = arr[0].ToString() + arr[1].ToString();
+            //判断key是否存在
+            if (dictionary.ContainsKey(xing))
             {
-                var num = 0;
-                //复姓命中
-                var xing = arr[0].ToString() + arr[1].ToString();
+                namePinYin.Append(dictionary[xing]);
+                num = 2;
+            }
+            else
+            {
+                //单姓命中
+                xing = arr[0].ToString();
                 //判断key是否存在
                 if (dictionary.ContainsKey(xing))
                 {
                     namePinYin.Append(dictionary[xing]);
-                    num = 2;
-                }
-                else
-                {
-                    //单姓命中
-                    xing = arr[0].ToString();
-                    //判断key是否存在
-                    if (dictionary.ContainsKey(xing))
-                    {
-                        namePinYin.Append(dictionary[xing]);
-                        num = 1;
-                    }
-                }
-                //名命中
-                var ming = name.Remove(0, num);
-                if (ming.Length > 0)
-                {
-                    //常规拼音转换
-                    namePinYin.Append(PinyinConvert.ToPinyins(ming, true)[0]);
+                    num = 1;
                 }
             }
-            //单个字节
-            else
+            //名命中
+            var ming = name.Remove(0, num);
+            if (ming.Length > 0)
             {
                 //常规拼音转换
-                namePinYin.Append(PinyinConvert.ToPinyins(name, true)[0]);
+                namePinYin.Append(PinyinConvert.ToPinyins(ming, true)[0]);
             }
-            //返回
             return namePinYin.ToString();
         }
 
