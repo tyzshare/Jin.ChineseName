@@ -17,6 +17,11 @@ namespace Jin.ChineseName
         /// <returns>转换后的拼音</returns>
         public string GetNamePinYin(string name)
         {
+            //校验姓名是否存在
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
             //初始化字典集
             var dictionary = ReadPinYinConfiguration();
             var namePinYin = new StringBuilder();
@@ -25,41 +30,36 @@ namespace Jin.ChineseName
             //2个或以上字节
             if (arr.Count() >= 2)
             {
-                var pinyin = string.Empty;
                 var num = 0;
                 //复姓命中
-                if (string.IsNullOrWhiteSpace(pinyin))
+                var xing = arr[0].ToString() + arr[1].ToString();
+                //判断key是否存在
+                if (dictionary.ContainsKey(xing))
                 {
-                    var xing = arr[0].ToString() + arr[1].ToString();
-                    //判断key是否存在
-                    if (dictionary.ContainsKey(xing))
-                    {
-                        pinyin = dictionary[xing];
-                        namePinYin.Append(pinyin);
-                        num = 2;
-                    }
+                    namePinYin.Append(dictionary[xing]);
+                    num = 2;
                 }
-                //单姓命中
-                if (string.IsNullOrWhiteSpace(pinyin))
+                else
                 {
-                    var xing = arr[0].ToString();
+                    //单姓命中
+                    xing = arr[0].ToString();
                     //判断key是否存在
                     if (dictionary.ContainsKey(xing))
                     {
-                        pinyin = dictionary[xing];
-                        namePinYin.Append(pinyin);
+                        namePinYin.Append(dictionary[xing]);
                         num = 1;
                     }
                 }
                 //名命中
-                for (var i = num; i < name.Count(); i++)
+                var ming = name.Remove(0, num);
+                if (ming.Length > 0)
                 {
                     //常规拼音转换
-                    namePinYin.Append(PinyinConvert.ToPinyins(arr[i].ToString(),true)[0]);
+                    namePinYin.Append(PinyinConvert.ToPinyins(ming, true)[0]);
                 }
             }
             //单个字节
-            if (arr.Count() <= 1 && name.Length > 0)
+            else
             {
                 //常规拼音转换
                 namePinYin.Append(PinyinConvert.ToPinyins(name, true)[0]);

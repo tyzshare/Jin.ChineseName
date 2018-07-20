@@ -19,6 +19,7 @@ namespace Jin.ChineseName.Test
             //测试
             var list = new List<string>
             {
+                _class1.GetNamePinYin("你在说啥"),
                 _class1.GetNamePinYin("解雨花"),
                 _class1.GetNamePinYin("皇甫"),
                 _class1.GetNamePinYin("单雄信"),
