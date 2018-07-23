@@ -1,4 +1,5 @@
-﻿using Microsoft.International.Converters.PinYinConverter;
+﻿using Jin.ChineseName.Properties;
+using Microsoft.International.Converters.PinYinConverter;
 using NetCorePal.Toolkit.Pinyins;
 using System;
 using System.Collections.Generic;
@@ -8,14 +9,25 @@ using System.Text;
 
 namespace Jin.ChineseName
 {
-    public class Class1
+    /// <summary>
+    /// 中文名称拼音转换
+    /// </summary>
+    public class ChineseNamePinyinConvert
     {
+        static Dictionary<string, string> dictionary;
+        /// <summary>
+        /// 构造函数
+        /// </summary
+        static ChineseNamePinyinConvert()
+        {
+            dictionary = ReadPinYinConfiguration();
+        }
         /// <summary>
         /// 获取姓名拼音
         /// </summary>
         /// <param name="name">姓名</param>
         /// <returns>转换后的拼音</returns>
-        public string GetNamePinYin(string name)
+        public string GetChineseNamePinYin(string name)
         {
             //校验姓名是否存在
             if (string.IsNullOrWhiteSpace(name))
@@ -26,8 +38,6 @@ namespace Jin.ChineseName
             {
                 return PinyinConvert.ToPinyins(name, true)[0];
             }
-            //初始化字典集
-            var dictionary = ReadPinYinConfiguration();
             var namePinYin = new StringBuilder();
             //姓名拆成单字
             var arr = name.ToCharArray();
@@ -65,56 +75,31 @@ namespace Jin.ChineseName
         /// 读取拼音配置项
         /// </summary>
         /// <returns>字典集</returns>
-        public Dictionary<string, string> ReadPinYinConfiguration()
+        public static Dictionary<string, string> ReadPinYinConfiguration()
         {
-            //文件路径
-            DirectoryInfo rootDir = Directory.GetParent(Environment.CurrentDirectory);
-            var root = rootDir.Parent.Parent.FullName;
-            var filePath = root + @"\Jin.ChineseName\File\baijiaxing.txt";
             //定义字典集
             var dictionary = new Dictionary<string, string>();
-            //读取文件
-            if (File.Exists(filePath))
+            var resource = Resources.ChineseNames;
+            if (string.IsNullOrWhiteSpace(resource))
             {
-                using (StreamReader sr = new StreamReader(filePath, Encoding.UTF8))
-                {
-                    var line = string.Empty;
-                    while ((line = sr.ReadLine()) != null)
-                    {
-                        //处理音调
-                        line = ReplaceString(line);
-                        //处理字典集
-                        var key = new StringBuilder();
-                        var value = new StringBuilder();
-                        foreach (var item in line)
-                        {
-                            if (item <= 128)
-                            {
-                                //拼音，加入value
-                                if (!char.IsWhiteSpace(item))
-                                {
-                                    value.Append(item);
-                                }
-                            }
-                            else
-                            {
-                                //汉字，加入key
-                                key.Append(item);
-                            }
-                        }
-                        dictionary.Add(key.ToString(), value.ToString());
-                    }
-                }
+                throw new ArgumentNullException("resource","百家姓资源不存在");
+            }
+            var strArray = resource.Split(new string[] { "\r\n" }, StringSplitOptions.None);
+            foreach (var item in strArray)
+            {
+                string item_new = ReplaceString(item);
+                string[] nameStrArray = item_new.Split(new string[] { "\t" }, StringSplitOptions.None);
+                dictionary.Add(nameStrArray[0], nameStrArray[1]);
             }
             return dictionary;
         }
 
         /// <summary>
-        /// 替换声调
+        /// 替换声调和空格
         /// </summary>
         /// <param name="str">字符串</param>
         /// <returns>处理后的字符串</returns>
-        public string ReplaceString(string str)
+        public static string ReplaceString(string str)
         {
             //a
             str = str.Replace("ā", "a");
@@ -147,6 +132,8 @@ namespace Jin.ChineseName
             str = str.Replace("ǚ", "v");
             str = str.Replace("ǜ", "v");
 
+            //去除空格
+            str = str.Replace(" ", "");
             return str;
         }
     }
