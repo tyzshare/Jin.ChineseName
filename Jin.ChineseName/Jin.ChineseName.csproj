@@ -2,6 +2,14 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Description>中文名称转拼音</Description>
+    <Company>天涯子</Company>
+    <Authors>天涯子</Authors>
+    <PackageLicenseUrl></PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/tyzshare/Jin.ChineseName</PackageProjectUrl>
+    <PackageIconUrl>http://fileserver.tyzshare.com/DefaultFace/defaultFace.jpg</PackageIconUrl>
   </PropertyGroup>
 
   <ItemGroup>
