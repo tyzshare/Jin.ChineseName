@@ -14,50 +14,55 @@ namespace Jin.ChineseName
     /// </summary>
     public class ChineseNamePinyinConvert
     {
-        static Dictionary<string, string> dictionary;
         /// <summary>
-        /// 构造函数
+        /// 静态资源：存放百家姓
+        /// </summary>
+        static Dictionary<string, string> dictionary;
+
+        /// <summary>
+        /// 静态构造函数
         /// </summary
         static ChineseNamePinyinConvert()
         {
             dictionary = ReadPinYinConfiguration();
         }
+
         /// <summary>
         /// 获取姓名拼音
         /// </summary>
         /// <param name="name">姓名</param>
         /// <returns>转换后的拼音</returns>
-        public string GetChineseNamePinYin(string name)
+        public static string GetChineseNamePinYin(string name)
         {
-            //校验姓名是否存在
+            //校验姓名是否为空，如果为空，直接抛错
             if (string.IsNullOrWhiteSpace(name))
             {
                 throw new ArgumentNullException(nameof(name));
             }
+            //只有一个字符
             if (name.Length == 1)
             {
+                //命中百家姓单姓，直接返回单姓
+                if (dictionary.ContainsKey(name))
+                {
+                    return dictionary[name];
+                }
                 return PinyinConvert.ToPinyins(name, true)[0];
             }
             var namePinYin = new StringBuilder();
-            //姓名拆成单字
-            var arr = name.ToCharArray();
             var num = 0;
-            //复姓命中
-            var xing = arr[0].ToString() + arr[1].ToString();
             //判断key是否存在
-            if (dictionary.ContainsKey(xing))
+            if (dictionary.ContainsKey(name.Substring(0, 2)))
             {
-                namePinYin.Append(dictionary[xing]);
+                namePinYin.Append(dictionary[name.Substring(0, 2)]);
                 num = 2;
             }
             else
             {
-                //单姓命中
-                xing = arr[0].ToString();
                 //判断key是否存在
-                if (dictionary.ContainsKey(xing))
+                if (dictionary.ContainsKey(name.Substring(0, 1)))
                 {
-                    namePinYin.Append(dictionary[xing]);
+                    namePinYin.Append(dictionary[name.Substring(0, 1)]);
                     num = 1;
                 }
             }
@@ -75,14 +80,14 @@ namespace Jin.ChineseName
         /// 读取拼音配置项
         /// </summary>
         /// <returns>字典集</returns>
-        public static Dictionary<string, string> ReadPinYinConfiguration()
+        private static Dictionary<string, string> ReadPinYinConfiguration()
         {
             //定义字典集
             var dictionary = new Dictionary<string, string>();
             var resource = Resources.ChineseNames;
             if (string.IsNullOrWhiteSpace(resource))
             {
-                throw new ArgumentNullException("resource","百家姓资源不存在");
+                throw new ArgumentNullException("resource", "百家姓资源不存在");
             }
             var strArray = resource.Split(new string[] { "\r\n" }, StringSplitOptions.None);
             foreach (var item in strArray)
@@ -99,7 +104,7 @@ namespace Jin.ChineseName
         /// </summary>
         /// <param name="str">字符串</param>
         /// <returns>处理后的字符串</returns>
-        public static string ReplaceString(string str)
+        private static string ReplaceString(string str)
         {
             //a
             str = str.Replace("ā", "a");
