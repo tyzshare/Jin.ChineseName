@@ -138,7 +138,7 @@ namespace Jin.ChineseName
             str = str.Replace("ǜ", "v");
 
             //去除空格
-            str = str.Replace(" ", "");
+            str = str.Replace(" ", string.Empty);
             return str;
         }
     }
