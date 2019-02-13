@@ -50,8 +50,8 @@ namespace Jin.ChineseName.Test
         public void PinyinConvertResultTest()
         {
             
-            var dbHost = "server=192.168.50.208;port=3306;User Id=myth_dev;Pwd=myth_dev;Persist Security Info=True;database=consultant";
-            var redisConnect = "192.168.50.210:6379,defaultDatabase=1,abortConnect=false,ssl=false";
+            var dbHost = "************************************";
+            var redisConnect = "************************************";
             var cachePrefix = "myth.sis";
 
             //不使用缓存 测试
