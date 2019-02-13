@@ -49,15 +49,30 @@ namespace Jin.ChineseName.Test
         [TestMethod]
         public void PinyinConvertResultTest()
         {
-            //单姓氏测试-只有单姓氏
-            Assert.AreEqual("shan", ChineseNamePinyinConvert.GetChineseNamePinYin("单"));
-            //单姓氏测试
-            Assert.AreEqual("shan", ChineseNamePinyinConvert.GetChineseNamePinYin("单雄信").Substring(0, 4));
+            
+            var dbHost = "server=192.168.50.208;port=3306;User Id=myth_dev;Pwd=myth_dev;Persist Security Info=True;database=consultant";
+            var redisConnect = "192.168.50.210:6379,defaultDatabase=1,abortConnect=false,ssl=false";
+            var cachePrefix = "myth.sis";
 
-            //复姓测试-只有复姓
-            Assert.AreEqual("huangfu", ChineseNamePinyinConvert.GetChineseNamePinYin("皇甫"));
-            //复姓测试
-            Assert.AreEqual("huangfu", ChineseNamePinyinConvert.GetChineseNamePinYin("皇甫鹏").Substring(0, 7));
+            //不使用缓存 测试
+            Assert.AreEqual("shi", ChineseNamePinyinConvert.GetChineseNamePinYin("石"));
+            Assert.AreEqual("shigu", ChineseNamePinyinConvert.GetChineseNamePinYin("石家"));
+            Assert.AreEqual("shiguge", ChineseNamePinyinConvert.GetChineseNamePinYin("石家屹"));
+
+            //使用缓存 测试
+            Assert.AreEqual("shi", ChineseNamePinyinConvert.GetChineseNamePinYin("石", dbHost, redisConnect, cachePrefix));
+            Assert.AreEqual("shijia", ChineseNamePinyinConvert.GetChineseNamePinYin("石家", dbHost, redisConnect, cachePrefix, DateTime.Now.AddSeconds(60)));
+            Assert.AreEqual("shijiayi", ChineseNamePinyinConvert.GetChineseNamePinYin("石家屹", dbHost, redisConnect, cachePrefix));
+
+            ////单姓氏测试-只有单姓氏
+            //Assert.AreEqual("shan", ChineseNamePinyinConvert.GetChineseNamePinYin("单"));
+            ////单姓氏测试
+            //Assert.AreEqual("shan", ChineseNamePinyinConvert.GetChineseNamePinYin("单雄信").Substring(0, 4));
+
+            ////复姓测试-只有复姓
+            //Assert.AreEqual("huangfu", ChineseNamePinyinConvert.GetChineseNamePinYin("皇甫"));
+            ////复姓测试
+            //Assert.AreEqual("huangfu", ChineseNamePinyinConvert.GetChineseNamePinYin("皇甫鹏").Substring(0, 7));
 
             //非常规字符测试
             Assert.AreEqual(ChineseNamePinyinConvert.GetChineseNamePinYin("A"), "a");
