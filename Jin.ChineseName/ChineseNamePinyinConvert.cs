@@ -192,7 +192,6 @@ namespace Jin.ChineseName
         /// <returns>多音字优先命中字典</returns>
         public static Dictionary<string, string> GetPinYinDictionary(string connectionString)
         {
-
             var conn = new MySqlConnection(connectionString);
             try
             {
@@ -212,6 +211,10 @@ namespace Jin.ChineseName
                     }
                     return result;
                 }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
             finally
             {
