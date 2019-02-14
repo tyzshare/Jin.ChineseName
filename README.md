@@ -9,7 +9,9 @@ shanxiongxin
 # 说明：
 同时支持net45和netcore，支持百家姓多音字
 
---以下升级版本------------------------------------------------------------
+
+---
+
 
 # 优化中文名称转拼音
 1. 中文名称转拼音，通过百家姓可以解决姓的问题，但是由于多音字的问题，名的匹配度不高，在没有词频的情况下，维护一份多音字字典也不失为一种解决方案；
@@ -17,6 +19,8 @@ shanxiongxin
 3. 减少数据库查询次数，利用缓存来优化，但是如果新增，修改，删除多音字，需要记得清楚缓存；
 
 # 创建多音字表
+
+```
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
@@ -48,6 +52,8 @@ INSERT INTO `duoyinzidictionary` VALUES ('95', '奇', 'qi', '2019-02-13 16:27:06
 INSERT INTO `duoyinzidictionary` VALUES ('97', '靓', 'liang', '2019-02-13 16:27:06');
 INSERT INTO `duoyinzidictionary` VALUES ('99', '屹', 'yi', '2019-02-13 16:27:06');
 INSERT INTO `duoyinzidictionary` VALUES ('101', '伯', 'bo', '2019-02-13 16:27:06');
+```
+
 # 中文姓名转拼音
 var result= ChineseNamePinyinConvert.GetChineseNamePinYin("石家屹", "数据库连接字符串"【可空】,"redis连接字符串"【可空】, "缓存前缀"【可空】,"过期时间"【可空】)
 # 返回结果：
