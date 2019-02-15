@@ -63,7 +63,7 @@ namespace Jin.ChineseName.Test
             //Assert.AreEqual("shijia", ChineseNamePinyinConvert.GetChineseNamePinYin("石家", dbHost, redisConnect, cachePrefix, DateTime.Now.AddSeconds(60)));
 
             //数据库，redis 
-            Assert.AreEqual("shijiayi", ChineseNamePinyinConvert.GetChineseNamePinYin("石家屹", dbHost, redisConnect, cachePrefix));
+            Assert.AreEqual("shijiayi", ChineseNamePinyinConvert.GetChineseNamePinYin("石家屹", dbHost, redisConnect, cachePrefix, null));
 
             ////单姓氏测试-只有单姓氏
             //Assert.AreEqual("shan", ChineseNamePinyinConvert.GetChineseNamePinYin("单"));
