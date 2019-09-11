@@ -49,8 +49,8 @@ namespace Jin.ChineseName.Test
         [TestMethod]
         public void PinyinConvertResultTest()
         {
-            var dbHost = "server=192.168.50.208;port=3306;User Id=myth_dev;Pwd=myth_dev;Persist Security Info=True;database=consultant";
-            var redisConnect = "192.168.50.210:6379,defaultDatabase=1,abortConnect=false,ssl=false";
+            var dbHost = "server=rm-bp1560i2w47uddy58rw.mysql.rds.aliyuncs.com;port=3306;User Id=myth_dev;Pwd=WD0YDqURnvCfLLX4lu77;Persist Security Info=True;database=consultant";
+            var redisConnect = "101.37.227.36:10019,defaultDatabase=8,abortConnect=false,ssl=false,password=TZTdy9cwwr1993ij";
             var cachePrefix = "myth.sis";
 
             //不使用缓存 测试
@@ -63,7 +63,7 @@ namespace Jin.ChineseName.Test
             //Assert.AreEqual("shijia", ChineseNamePinyinConvert.GetChineseNamePinYin("石家", dbHost, redisConnect, cachePrefix, DateTime.Now.AddSeconds(60)));
 
             //数据库，redis 
-            Assert.AreEqual("shijiayi", ChineseNamePinyinConvert.GetChineseNamePinYin("石家屹", dbHost, redisConnect, cachePrefix, null));
+            Assert.AreEqual("shijiayi", ChineseNamePinyinConvert.GetChineseNamePinYin("李施弦", dbHost, redisConnect, cachePrefix, null));
 
             ////单姓氏测试-只有单姓氏
             //Assert.AreEqual("shan", ChineseNamePinyinConvert.GetChineseNamePinYin("单"));
@@ -78,6 +78,23 @@ namespace Jin.ChineseName.Test
             //非常规字符测试
             //Assert.AreEqual(ChineseNamePinyinConvert.GetChineseNamePinYin("A"), "a");
             //Assert.AreEqual(ChineseNamePinyinConvert.GetChineseNamePinYin("^"), "^");
+        }
+
+        /// <summary>
+        /// 测试参数为空
+        /// </summary>
+        [TestMethod]
+        public void PinyinConvertExcelTest()
+        {
+            
+            var dbHost = "server=rm-bp1560i2w47uddy58rw.mysql.rds.aliyuncs.com;port=3306;User Id=myth_dev;Pwd=WD0YDqURnvCfLLX4lu77;Persist Security Info=True;database=consultant";
+            var redisConnect = "101.37.227.36:10019,defaultDatabase=8,abortConnect=false,ssl=false,password=TZTdy9cwwr1993ij";
+            var cachePrefix = "myth.sis";
+            var connectionString = "server=localhost;port=3306;User Id=root;Pwd=123456;Persist Security Info=True;database=pinyinexcel";
+            //获取学生姓名对应的拼音
+            var students = ChineseNamePinyinConvert.GetNameToPinyin(connectionString, dbHost, redisConnect, cachePrefix, null);
+            //更新拼音
+            ChineseNamePinyinConvert.SavePinyin(connectionString, students);
         }
     }
 }

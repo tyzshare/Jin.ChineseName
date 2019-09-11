@@ -1,4 +1,5 @@
-﻿using Jin.ChineseName.Properties;
+﻿using Jin.ChineseName.Model;
+using Jin.ChineseName.Properties;
 using Microsoft.International.Converters.PinYinConverter;
 using MySql.Data.MySqlClient;
 using NetCorePal.Toolkit.Pinyins;
@@ -273,6 +274,70 @@ namespace Jin.ChineseName
             catch (Exception ex)
             {
                 throw ex;
+            }
+        }
+
+
+        public static List<Student> GetNameToPinyin(string connectionString, string dbConnect = null, string redisConnect = null, string cachePrefix = null, DateTime? expiry = null)
+        {
+            var conn = new MySqlConnection(connectionString);
+            try
+            {
+                conn.Open();
+                using (var command = conn.CreateCommand())
+                {
+                    var result = new List<Student>();
+                    command.CommandText = "SELECT Id,Name,Pinyin FROM student;";
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var student = new Student();
+                            student.Id = Convert.ToInt64(reader["Id"]);
+                            student.Name = reader["Name"].ToString();
+                            //拼音转换
+                            student.Pinyin = GetChineseNamePinYin(student.Name, dbConnect, redisConnect, cachePrefix, expiry);
+                            //添加
+                            result.Add(student);
+                        }
+                    }
+                    return result;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+        public static bool SavePinyin(string connectionString, List<Student> students)
+        {
+            var conn = new MySqlConnection(connectionString);
+            try
+            {
+                conn.Open();
+                using (var command = conn.CreateCommand())
+                {
+                    //循环更新
+                    foreach (var student in students)
+                    {
+                        command.CommandText = $"UPDATE student Set Pinyin='{student.Pinyin}' WHERE Id={student.Id};";
+                        command.ExecuteNonQuery();
+                    }
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                conn.Close();
             }
         }
     }
