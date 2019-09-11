@@ -1,0 +1,12 @@
+/*==============================================================*/
+/* Table: student                                               */
+/*==============================================================*/
+create table student
+(
+   Id                   bigint(20) not null default 0 comment 'Id',
+   Name                 varchar(100) not null default '' comment 'Ãû³Æ',
+   Pinyin               varchar(100) not null default '' comment 'Æ´Òô',
+   primary key (Id)
+);
+
+alter table student comment 'Ñ§Éú';
