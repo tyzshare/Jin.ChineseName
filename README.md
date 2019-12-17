@@ -61,5 +61,4 @@ var result= ChineseNamePinyinConvert.GetChineseNamePinYin("石家屹", "数据�
 shijiayi
 ```
 
-Test
 
