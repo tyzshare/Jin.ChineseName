@@ -49,8 +49,8 @@ namespace Jin.ChineseName.Test
         [TestMethod]
         public void PinyinConvertResultTest()
         {
-            var dbHost = "server=rm-bp1560i2w47uddy58rw.mysql.rds.aliyuncs.com;port=3306;User Id=myth_dev;Pwd=WD0YDqURnvCfLLX4lu77;Persist Security Info=True;database=consultant";
-            var redisConnect = "101.37.227.36:10019,defaultDatabase=8,abortConnect=false,ssl=false,password=TZTdy9cwwr1993ij";
+            var dbHost = "server=******;port=3306;User Id=******;Pwd=******;Persist Security Info=True;database=******";
+            var redisConnect = "******,defaultDatabase=8,abortConnect=false,ssl=false,password=******";
             var cachePrefix = "myth.sis";
 
             //不使用缓存 测试
@@ -87,8 +87,8 @@ namespace Jin.ChineseName.Test
         public void PinyinConvertExcelTest()
         {
             
-            var dbHost = "server=rm-bp1560i2w47uddy58rw.mysql.rds.aliyuncs.com;port=3306;User Id=myth_dev;Pwd=WD0YDqURnvCfLLX4lu77;Persist Security Info=True;database=consultant";
-            var redisConnect = "101.37.227.36:10019,defaultDatabase=8,abortConnect=false,ssl=false,password=TZTdy9cwwr1993ij";
+            var dbHost = "server=******;port=3306;User Id=myth_dev;Pwd=******;Persist Security Info=True;database=******";
+            var redisConnect = "******,defaultDatabase=8,abortConnect=false,ssl=false,password=******";
             var cachePrefix = "myth.sis";
             var connectionString = "server=localhost;port=3306;User Id=root;Pwd=123456;Persist Security Info=True;database=pinyinexcel";
             //获取学生姓名对应的拼音
